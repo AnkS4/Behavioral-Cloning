@@ -33,12 +33,8 @@ def generator(samples, batch_size=32):
             		images.append(image)
             		images.append(cv2.flip(image, 1))
             	angle = float(batch_sample[3])
-            	angles.append(angle)
-            	angles.append(angle+correction)
-            	angles.append(angle-correction)
-            	angles.append(-1.0 * angle)
-            	angles.append(-1.0 * (angle+correction))
-            	angles.append(-1.0 * (angle-correction))
+            	temp = [angle, -1*angle, angle+correction, -1*(angle+correction), angle-correction, -1*(angle-correction)]
+            	angles.extend(temp)
 
             X_train = np.array(images)
             y_train = np.array(angles)
@@ -63,5 +59,5 @@ model.add(Dense(1))
 
 model.compile(optimizer='adam', loss='mse')
 #model.fit(X_train, y_train, validation_split=0.33, shuffle=True, epochs=5)
-model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
+model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=3, verbose = 1)
 model.save('model.h5')
