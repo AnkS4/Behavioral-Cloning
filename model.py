@@ -4,6 +4,7 @@ import numpy as np
 import keras
 from keras.models import Sequential
 from keras.layers import Dense, Flatten, Lambda, Conv2D, MaxPooling2D, Cropping2D
+from keras import backend as K
 
 lines = []
 with open('./data/driving_log.csv') as f:
@@ -30,7 +31,16 @@ for line in lines:
 
 print(len(images))
 
-'''
+#conv = np.array([[0.2989],[0.5870],[0.1140]])
+def grayconv(img):
+	'''
+	img2 = np.zeros((img.shape[0],img.shape[1],1))
+	img2[:,:,:,] = np.dot(img[...,:3],conv)
+	return img2
+	'''
+	return (0.21 * img[:,:,:1]) + (0.72 * img[:,:,1:2]) + (0.07 * img[:,:,-1:])
+
+
 augmented_images, augmented_measurements= [], []
 for image, measurement in zip(images, measurements):
 	augmented_images.append(image)
@@ -41,10 +51,11 @@ for image, measurement in zip(images, measurements):
 
 X_train = np.array(augmented_images)
 y_train = np.array(augmented_measurements)
-'''
 
+'''
 X_train = np.array(images)
 y_train = np.array(measurements)
+'''
 print(X_train.shape)
 
 '''
@@ -64,9 +75,11 @@ model.add(Dense(1))
 '''
 
 model = Sequential()
-model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 3)))
+model.add(Lambda(lambda x: grayconv(x), input_shape=(160, 320, 3)))
+model.add(Lambda(lambda x: x/255.0 - 0.5))
 model.add(Cropping2D(cropping=((50, 20), (0, 0))))
 
+model.add(Lambda(lambda image:K.tf.image.resize_images(image, size=(32, 32))))
 model.add(Conv2D(32, (3, 3), strides=(2, 2), activation='elu'))
 model.add(MaxPooling2D((2,2)))
 model.add(Conv2D(12, (3, 3), strides=(2, 2), activation='elu'))
