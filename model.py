@@ -7,6 +7,7 @@ from keras.layers import Dense, Flatten, Lambda, Conv2D, MaxPooling2D, Cropping2
 from keras import backend as K
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
+from keras import optimizers
 
 lines = []
 with open('./data/driving_log.csv') as f:
@@ -30,9 +31,11 @@ def generator(samples, batch_size=32):
             	for i in range(3):
             		path = './data/IMG/' + batch_sample[i].split('/')[-1]
             		image = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2HSV)
-            		temp = image[:,:,-1].reshape(160, 320, 1)
-            		images.append(temp)
-            		images.append(cv2.flip(image, 1))
+            		tmp = image[:,:,1].reshape(160, 320, 1)
+            		images.append(tmp)
+            		tmp2 = cv2.flip(tmp,1).reshape(160, 320, 1)
+            		images.append(tmp2)
+
             	angle = float(batch_sample[3])
             	temp = [angle, -1.*angle, angle+correction, -1.*(angle+correction), angle-correction, -1.*(angle-correction)]
             	angles.extend(temp)
@@ -45,7 +48,7 @@ train_generator = generator(train_samples)
 validation_generator = generator(validation_samples)
 
 model = Sequential()
-model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 1)))
+model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 1), output_shape=(160, 320, 1)))
 model.add(Cropping2D(cropping=((50, 20), (0, 0))))
 model.add(Lambda(lambda image:K.tf.image.resize_images(image, size=(64, 64))))
 
@@ -60,6 +63,18 @@ model.add(Dropout(.5))
 model.add(ELU())
 model.add(Dense(1))
 
-model.compile(optimizer='adam', loss='mse')
-model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
+adam = optimizers.Adam(lr=0.004)
+model.compile(optimizer=adam, loss='mse')
+history_obj = model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
 model.save('model.h5')
+
+import matplotlib.pyplot as plt
+print(history_obj.history.keys())
+
+plt.plot(history_obj.history['loss'])
+plt.plot(history_obj.history['val_loss'])
+plt.title('Model MSE loss')
+plt.ylabel('MSE loss')
+plt.xlabel('Epoch')
+plt.legend(['training set', 'validation set'])
+plt.show()
