@@ -32,7 +32,13 @@ My final model consisted of the following layers:
 #### Hyperparameters:
 
 To train the model, I used:
+
 EPOCHS of 5,
+
 BATCH SIZE of 128,
+
 learning rate of 0.004 with Adam optimizer,
-MSE loss function
+
+MSE loss function,
+
+Train/Validation Split: 0.67/0.33
