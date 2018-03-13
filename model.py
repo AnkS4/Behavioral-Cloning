@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Lambda, Conv2D, MaxPooling2D, Cropping2D
+from keras.layers import Dense, Flatten, Lambda, Conv2D, MaxPooling2D, Cropping2D, Dropout, ELU
 from keras import backend as K
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
@@ -29,11 +29,12 @@ def generator(samples, batch_size=32):
             for batch_sample in batch_samples:
             	for i in range(3):
             		path = './data/IMG/' + batch_sample[i].split('/')[-1]
-            		image = cv2.imread(path)
-            		images.append(image)
+            		image = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2HSV)
+            		temp = image[:,:,-1].reshape(160, 320, 1)
+            		images.append(temp)
             		images.append(cv2.flip(image, 1))
             	angle = float(batch_sample[3])
-            	temp = [angle, -1*angle, angle+correction, -1*(angle+correction), angle-correction, -1*(angle-correction)]
+            	temp = [angle, -1.*angle, angle+correction, -1.*(angle+correction), angle-correction, -1.*(angle-correction)]
             	angles.extend(temp)
 
             X_train = np.array(images)
@@ -44,20 +45,21 @@ train_generator = generator(train_samples)
 validation_generator = generator(validation_samples)
 
 model = Sequential()
-model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 3)))
+model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 1)))
 model.add(Cropping2D(cropping=((50, 20), (0, 0))))
-model.add(Conv2D(24, (5, 5), strides=(2, 2), activation='relu'))
-model.add(Conv2D(36, (5, 5), strides=(2, 2), activation='relu'))
-model.add(Conv2D(48, (5, 5), strides=(2, 2), activation='relu'))
-model.add(Conv2D(64, (3, 3), strides=(2, 2), activation='relu'))
-model.add(Conv2D(64, (3, 3), strides=(2, 2), activation='relu'))
+model.add(Lambda(lambda image:K.tf.image.resize_images(image, size=(64, 64))))
+
+model.add(Conv2D(16, (8, 8), strides=(4, 4), padding="same", activation="elu"))
+model.add(Conv2D(32, (5, 5), strides=(2, 2), padding="same", activation="elu"))
+model.add(Conv2D(64, (5, 5), strides=(2, 2), padding="same"))
 model.add(Flatten())
-model.add(Dense(100))
-model.add(Dense(50))
-model.add(Dense(10))
+model.add(Dropout(.2))
+model.add(ELU())
+model.add(Dense(512))
+model.add(Dropout(.5))
+model.add(ELU())
 model.add(Dense(1))
 
 model.compile(optimizer='adam', loss='mse')
-#model.fit(X_train, y_train, validation_split=0.33, shuffle=True, epochs=5)
-model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=3, verbose = 1)
+model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
 model.save('model.h5')
