@@ -48,7 +48,7 @@ train_generator = generator(train_samples)
 validation_generator = generator(validation_samples)
 
 model = Sequential()
-model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 1), output_shape=(160, 320, 1)))
+model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 1)))
 model.add(Cropping2D(cropping=((50, 20), (0, 0))))
 model.add(Lambda(lambda image:K.tf.image.resize_images(image, size=(64, 64))))
 
@@ -65,16 +65,5 @@ model.add(Dense(1))
 
 adam = optimizers.Adam(lr=0.004)
 model.compile(optimizer=adam, loss='mse')
-history_obj = model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
+model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
 model.save('model.h5')
-
-import matplotlib.pyplot as plt
-print(history_obj.history.keys())
-
-plt.plot(history_obj.history['loss'])
-plt.plot(history_obj.history['val_loss'])
-plt.title('Model MSE loss')
-plt.ylabel('MSE loss')
-plt.xlabel('Epoch')
-plt.legend(['training set', 'validation set'])
-plt.show()
