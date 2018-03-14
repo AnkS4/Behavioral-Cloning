@@ -64,8 +64,8 @@ def telemetry(sid, data):
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
 
-        image = cv2.cvtColor(image_array, cv2.COLOR_BGR2HSV)
-        tmp = image[:,:,1].reshape(160, 320, 1)
+        image2 = cv2.cvtColor(image_array, cv2.COLOR_BGR2HSV)
+        tmp = image2[:,:,1].reshape(160, 320, 1)
 
         steering_angle = float(model.predict(tmp[None, :, :, :], batch_size=1))
 
