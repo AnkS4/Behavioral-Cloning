@@ -1,3 +1,9 @@
+[//]: # (Image References)
+
+[center]: ./images/center.jpg "Center Camera"
+[left]: ./images/left.jpg "Left Camera"
+[right]: ./images/right.jpg "Right Camera"
+
 # Behavioral-Cloning
 
 The goals / steps of this project are the following:
@@ -61,3 +67,11 @@ I randomly shuffled the data set and put 33% of the data into a validation set.
 The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by better validation accuracy. I used an adam optimizer with 0.004 as learning rate.
 
 At the end of the process, the vehicle was able to drive autonomously for 1 lap.
+
+### Sample Camera Images
+
+Here's the images from 3 differrent cameras at same position:
+
+  Left Camera              |   Center Camera           | Right Camera 
+:-------------------------:|:-------------------------:|:-------------------------:
+ ![Left Camera][left]      |  ![Center Camera][center] | ![Right Camera][right]
