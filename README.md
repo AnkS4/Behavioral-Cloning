@@ -63,6 +63,8 @@ In order to gauge how well the model was working, I split my image and steering 
 
 To combat the overfitting, I used all three cameras from the dataset.
 
+The training dataset I used is 'Udacity dataset'.
+
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track like curved lane line. To improve the driving behavior in these cases, I added flip image corresponding to each image.
 
 Then I eventually switched to the different model.
