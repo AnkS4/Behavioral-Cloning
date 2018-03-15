@@ -10,6 +10,7 @@ The goals / steps of this project are the following:
 ### Model Architecture and Training Strategy
 My final model consisted of the following layers:
 
+#### 1. Model Architecture
 | Layer         		|     Description	        					| 
 |:---------------------:|:---------------------------------------------:| 
 | Normalized using Lambda         		| 160x320x1 'S' Channel Image from HSV							| 
@@ -29,7 +30,7 @@ My final model consisted of the following layers:
 |	ELU			    |												|
 |	Dense | 1					|
 
-#### Hyperparameters:
+#### 2. Hyperparameters:
 
 To train the model, I used:
 
@@ -42,3 +43,21 @@ learning rate of 0.004 with Adam optimizer,
 MSE loss function,
 
 Train/Validation Split: 0.67/0.33
+
+#### 3. Solution Design Approach
+
+My first step was to use a convolution neural network model similar to the model used by comma.ai I thought this model might be appropriate because it is used to also used for Self-Driving Cars.
+
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set in ratio of 67/33. I previously tried Nvidia End-to-End model & LeNet model, both didn't work for me. I was getting low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+
+To combat the overfitting, I used all three cameras from the dataset.
+
+The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track like curved lane line. To improve the driving behavior in these cases, I added flip image corresponding to each image.
+
+Then I eventually switched to the different model.
+
+I randomly shuffled the data set and put 33% of the data into a validation set. 
+
+The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by better validation accuracy. I used an adam optimizer with 0.004 as learning rate.
+
+At the end of the process, the vehicle was able to drive autonomously for 1 lap.
