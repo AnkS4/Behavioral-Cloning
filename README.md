@@ -3,6 +3,8 @@
 [center]: ./images/center.jpg "Center Camera"
 [left]: ./images/left.jpg "Left Camera"
 [right]: ./images/right.jpg "Right Camera"
+[image]: ./images/image.png "S Channel Image"
+[image_f]: ./images/flipped_image.png "Flipped S Image"
 
 # Behavioral-Cloning
 
@@ -75,3 +77,14 @@ Here's the images from 3 differrent cameras at same position:
   Left Camera              |   Center Camera           | Right Camera 
 :-------------------------:|:-------------------------:|:-------------------------:
  ![Left Camera][left]      |  ![Center Camera][center] | ![Right Camera][right]
+ 
+ ### Image with it's Flipped Version
+
+I converted the image to HSV using cv2 & only used S (Saturation) channnel from HSV (Hue, Saturation, Value).
+As lane lines can easily be identified using S channel.
+
+   S Image                 |   Flipped S Image
+:-------------------------:|:-------------------------:
+ ![S Image][image]         |  ![Flipped S Image][image_f]
+ 
+ Here, angle for the second image will be negative angle of the first image.
