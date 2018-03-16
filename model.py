@@ -3,7 +3,7 @@ import cv2
 import numpy as np
 import keras
 from keras.models import Sequential
-from keras.layers import Dense, Flatten, Lambda, Conv2D, MaxPooling2D, Cropping2D, Dropout, ELU
+from keras.layers import Dense, Flatten, Lambda, Conv2D, MaxPooling2D, Cropping2D, Dropout, LeakyReLU
 from keras import backend as K
 from sklearn.model_selection import train_test_split
 from sklearn.utils import shuffle
@@ -15,7 +15,7 @@ with open('./data/driving_log.csv') as f:
 	for line in reader:
 		lines.append(line)
 
-train_samples, validation_samples = train_test_split(lines, test_size=0.33)
+train_samples, validation_samples = train_test_split(lines, test_size=0.2)
 
 correction = 0.2
 def generator(samples, batch_size=32):
@@ -52,17 +52,21 @@ model.add(Lambda(lambda x: x/255.0 - 0.5, input_shape=(160, 320, 1)))
 model.add(Cropping2D(cropping=((50, 20), (0, 0))))
 model.add(Lambda(lambda image:K.tf.image.resize_images(image, size=(128, 128))))
 
-model.add(Conv2D(16, (8, 8), strides=(4, 4), padding="same", activation="elu"))
-model.add(Conv2D(24, (5, 5), strides=(3, 3), padding="same", activation="elu"))
-model.add(Conv2D(36, (5, 5), strides=(3, 3), padding="same", activation="elu"))
-model.add(Conv2D(48, (5, 5), strides=(3, 3), padding="same", activation="elu"))
+model.add(Conv2D(16, (8, 8), strides=(4, 4), padding="same"))
+model.add(LeakyReLU())
+model.add(Conv2D(24, (5, 5), strides=(3, 3), padding="same"))
+model.add(LeakyReLU())
+model.add(Conv2D(36, (5, 5), strides=(3, 3), padding="same"))
+model.add(LeakyReLU())
+model.add(Conv2D(48, (5, 5), strides=(3, 3), padding="same"))
+model.add(LeakyReLU())
 model.add(Conv2D(64, (3, 3), strides=(2, 2), padding="same"))
 model.add(Flatten())
 model.add(Dropout(.2))
-model.add(ELU())
+model.add(LeakyReLU())
 model.add(Dense(512))
 model.add(Dropout(.5))
-model.add(ELU())
+model.add(LeakyReLU())
 model.add(Dense(1))
 
 model.compile(optimizer='Adam', loss='mse')
