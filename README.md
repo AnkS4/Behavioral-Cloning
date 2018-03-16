@@ -6,9 +6,6 @@
 [image]: ./images/image.png "S Channel Image"
 [image_f]: ./images/flipped_image.png "Flipped S Image"
 
-[![Video](https://i.imgur.com/L82sVi9.jpg)](https://vimeo.com/260062873)
-*"One lap of Autonomous Driving"*
-
 # Behavioral-Cloning
 
 The goals / steps of this project are the following:
