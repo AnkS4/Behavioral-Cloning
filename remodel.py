@@ -13,7 +13,7 @@ from keras.models import load_model
 model = load_model('model.h5')
 
 lines = []
-with open('./Car_Train4/driving_log.csv') as f:
+with open('./Car_Train7/driving_log2.csv') as f:
 	reader = csv.reader(f)
 	for line in reader:
 		lines.append(line)
@@ -31,17 +31,17 @@ def generator(samples, batch_size=32):
             images = []
             angles = []
             for batch_sample in batch_samples:
-            	for i in range(3):
-            		path = './Car_Train4/IMG/' + batch_sample[i].split('/')[-1]
-            		image = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2HSV)
-            		tmp = image[:,:,1].reshape(160, 320, 1)
-            		images.append(tmp)
-            		tmp2 = cv2.flip(tmp,1).reshape(160, 320, 1)
-            		images.append(tmp2)
+            	path = './Car_Train7/IMG/' + batch_sample[0].split('/')[-1]
+            	image = cv2.cvtColor(cv2.imread(path), cv2.COLOR_BGR2HSV)
+            	tmp = image[:,:,1].reshape(160, 320, 1)
+            	images.append(tmp)
+            	#tmp2 = cv2.flip(tmp,1).reshape(160, 320, 1)
+            	#images.append(tmp2)
 
             	angle = float(batch_sample[3])
-            	temp = [angle, -1.*angle, angle+correction, -1.*(angle+correction), angle-correction, -1.*(angle-correction)]
-            	angles.extend(temp)
+            	#temp = [angle, -angle]
+            	angles.append(angle)
+            	#angles.extend(temp)
 
             X_train = np.array(images)
             y_train = np.array(angles)
@@ -51,5 +51,5 @@ train_generator = generator(train_samples)
 validation_generator = generator(validation_samples)
 
 model.compile(optimizer='Adam', loss='mse')
-model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=2, verbose=1)
+model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose=1)
 model.save('model2.h5')
