@@ -21,24 +21,24 @@ The goals / steps of this project are the following:
 My final model consisted of the following layers:
 
 #### 1. Model Architecture
-| Layer         		|     Description	        					| 
-|:---------------------:|:---------------------------------------------:| 
-| Normalized using Lambda         		| 160x320x1 'S' Channel Image from HSV							| 
-| Cropping2D      		| Cropped Top 50, Bottom 20 pixels| 
-|	Resize using Lambda				|	128x128 Image						|
-|			          |												|
-| Conv2D  	    | 4x4 stride, SAME padding, Kernel 8x8 	|
-| LeakyReLU			|												|
-|	Conv2D				|	2x2 stride, SAME padding, Kernel 5x5					|
-| LeakyReLU     | 				|
-| Conv2D  	    | 2x2 stride, SAME padding, Kernel 5x5	|
-| Flatten				|												|
-|	Dropout				|	0.2								|
-| LeakyReLU     | 				|
-| Dense        	|	512							|
-|	Dropout       | 0.5     			|
-|	LeakyReLU     |												|
-|	Dense         | 1					|
+
+| Layer         		        | Description	        					                     | 
+|:-----------------------:|:---------------------------------------------:| 
+| Normalized using Lambda | 160x320x1 'S' Channel Image from HSV							   | 
+| Cropping2D      		      | Cropped Top 50, Bottom 20 pixels              | 
+|	Resize using Lambda				 |	128x128 Image						                           |
+| Conv2D  	               | 4x4 stride, SAME padding, Kernel 8x8 	        |
+| LeakyReLU			            |												                                   |
+|	Conv2D				              |	2x2 stride, SAME padding, Kernel 5x5					     |
+| LeakyReLU               | 				                                          |
+| Conv2D  	               | 2x2 stride, SAME padding, Kernel 5x5	         |
+| Flatten				             |												                                   |
+|	Dropout				             |	0.2								                                   |
+| LeakyReLU               | 				                                          |
+| Dense        	          |	512							                                    |
+|	Dropout                 | 0.5     			                                   |
+|	LeakyReLU               |												                                   |
+|	Dense                   | 1					                                        |
 
 #### 2. Hyperparameters:
 
