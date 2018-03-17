@@ -5,8 +5,8 @@
 [right]: ./images/right.jpg "Right Camera"
 [image]: ./images/image.png "S Channel Image"
 [image_f]: ./images/flipped_image.png "Flipped S Image"
-[off1]: /images/offtrack1.jpg "Offtrack Image 1"
-[off2]: /images/offtrack2.jpg "Offtrack Image 2"
+[off1]: ./images/offtrack1.jpg "Offtrack Image 1"
+[off2]: ./images/offtrack2.jpg "Offtrack Image 2"
 
 # Behavioral-Cloning
 
@@ -76,9 +76,9 @@ At first, I trained the model using Udacity dataset, it worked fine except getti
 
 Spot images from where car was getting off track:
 
- Offtrack Image 1          |   Offtrack Image 2
-:-------------------------:|:-------------------------:
-![Offtrack 1][off1]        |  ![Offtrack 2][off2]
+| Offtrack Image 1          | Offtrack Image 2          |
+|:-------------------------:|:-------------------------:|
+| ![Offtrack 1][off1]       | ![Offtrack 2][off2]       |
 
 For retraining the model I recorded image data by positioning the car when it's ready to go off-road and then steering towards the center.
 
@@ -90,17 +90,17 @@ At the end of the process, the vehicle was able to drive autonomously for 1 lap.
 
 Here's the images from 3 differrent cameras at same position:
 
-  Left Camera              |   Center Camera           | Right Camera 
-:-------------------------:|:-------------------------:|:-------------------------:
- ![Left Camera][left]      |  ![Center Camera][center] | ![Right Camera][right]
+| Left Camera               | Center Camera             | Right Camera              |
+|:-------------------------:|:-------------------------:|:-------------------------:|
+| ![Left Camera][left]      | ![Center Camera][center]  | ![Right Camera][right]    |
  
  ### Image with it's Flipped Version
 
 I converted the image to HSV using cv2 & only used S (Saturation) channnel from HSV (Hue, Saturation, Value).
 As lane lines can easily be identified using S channel.
 
-   S Image                 |   Flipped S Image
-:-------------------------:|:-------------------------:
- ![S Image][image]         |  ![Flipped S Image][image_f]
+| S Image                   | Flipped S Image            |
+|:-------------------------:|:--------------------------:|
+| ![S Image][image]         | ![Flipped S Image][image_f]|
  
  Here, angle for the second image will be negative angle of the first image.
