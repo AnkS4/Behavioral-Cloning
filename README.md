@@ -5,6 +5,8 @@
 [right]: ./images/right.jpg "Right Camera"
 [image]: ./images/image.png "S Channel Image"
 [image_f]: ./images/flipped_image.png "Flipped S Image"
+[off1]: /images/offtrack1.jpg "Offtrack Image 1"
+[off2]: /images/offtrack2.jpg "Offtrack Image 2"
 
 # Behavioral-Cloning
 
@@ -71,6 +73,14 @@ I randomly shuffled the data set and put 33% of the data into a validation set.
 The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by better validation accuracy. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
 At first, I trained the model using Udacity dataset, it worked fine except getting of the track at two specific spots. So, I retrained the model using *model2.py* using previous output *model.h5*, after training it outputs *model2.h5*.
+
+Spot images from where car was getting off track:
+
+ Offtrack Image 1          |   Offtrack Image 2
+:-------------------------:|:-------------------------:
+![Offtrack 1][off1]        |  ![Offtrack 2][off2]
+
+For retraining the model I recorded image data by positioning the car when it's ready to go off-road and then steering towards the center.
 
 *video2.mp4* is output produced from *model2.h5*. It is the final output.
 
