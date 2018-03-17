@@ -23,20 +23,20 @@ My final model consisted of the following layers:
 |:---------------------:|:---------------------------------------------:| 
 | Normalized using Lambda         		| 160x320x1 'S' Channel Image from HSV							| 
 | Cropping2D      		| Cropped Top 50, Bottom 20 pixels| 
-|	Resize using Lambda				|	64x64 Image						|
-|			|												|
-| Conv2D  	| 4x4 stride, SAME padding, Kernel 8x8 	|
-| ELU					|												|
+|	Resize using Lambda				|	128x128 Image						|
+|			          |												|
+| Conv2D  	    | 4x4 stride, SAME padding, Kernel 8x8 	|
+| LeakyReLU			|												|
 |	Conv2D				|	2x2 stride, SAME padding, Kernel 5x5					|
-| ELU	  | 				|
-| Conv2D  	| 2x2 stride, SAME padding, Kernel 5x5	|
+| LeakyReLU     | 				|
+| Conv2D  	    | 2x2 stride, SAME padding, Kernel 5x5	|
 | Flatten				|												|
 |	Dropout				|	0.2								|
-| ELU	  | 				|
-| Dense     	|	512							|
-|	Dropout  | 0.5     			|
-|	ELU			    |												|
-|	Dense | 1					|
+| LeakyReLU     | 				|
+| Dense        	|	512							|
+|	Dropout       | 0.5     			|
+|	LeakyReLU     |												|
+|	Dense         | 1					|
 
 #### 2. Hyperparameters:
 
@@ -46,21 +46,21 @@ EPOCHS of 5,
 
 BATCH SIZE of 128,
 
-learning rate of 0.004 with Adam optimizer,
+Optimizer 'Adam',
 
 MSE loss function,
 
-Train/Validation Split: 0.67/0.33
+Train/Validation Split: 0.8/0.
 
 #### 3. Solution Design Approach
 
 My first step was to use a convolution neural network model similar to the model used by comma.ai I thought this model might be appropriate because it is used to also used for Self-Driving Cars.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set in ratio of 67/33. I previously tried Nvidia End-to-End model & LeNet model, both didn't work for me. I was getting low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set in ratio of 80/20. I previously tried Nvidia End-to-End model & LeNet model, both didn't work for me. I was getting low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
 
 To combat the overfitting, I used all three cameras from the dataset.
 
-The training dataset I used is 'Udacity dataset'.
+The training dataset I used is *Udacity dataset*.
 
 The final step was to run the simulator to see how well the car was driving around track one. There were a few spots where the vehicle fell off the track like curved lane line. To improve the driving behavior in these cases, I added flip image corresponding to each image.
 
@@ -68,7 +68,11 @@ Then I eventually switched to the different model.
 
 I randomly shuffled the data set and put 33% of the data into a validation set. 
 
-The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by better validation accuracy. I used an adam optimizer with 0.004 as learning rate.
+The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by better validation accuracy. I used an adam optimizer so that manually training the learning rate wasn't necessary.
+
+At first, I trained the model using Udacity dataset, it worked fine except getting of the track at two specific spots. So, I retrained the model using *model2.py* using previous output *model.h5*, after training it outputs *model2.h5*.
+
+*video2.mp4* is output produced from *model2.h5*. It is the final output.
 
 At the end of the process, the vehicle was able to drive autonomously for 1 lap.
 
