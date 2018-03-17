@@ -68,7 +68,7 @@ The final step was to run the simulator to see how well the car was driving arou
 
 Then I eventually switched to the different model.
 
-I randomly shuffled the data set and put 33% of the data into a validation set. 
+I randomly shuffled the data set and put 20% of the data into a validation set. 
 
 The validation set helped determine if the model was over or under fitting. The ideal number of epochs was 2 as evidenced by better validation accuracy. I used an adam optimizer so that manually training the learning rate wasn't necessary.
 
