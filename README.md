@@ -52,7 +52,7 @@ Optimizer 'Adam',
 
 MSE loss function,
 
-Train/Validation Split: 0.8/0.
+Train/Validation Split: 0.8/0.2
 
 #### 3. Solution Design Approach
 
