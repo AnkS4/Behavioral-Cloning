@@ -70,5 +70,5 @@ model.add(LeakyReLU())
 model.add(Dense(1))
 
 model.compile(optimizer='Adam', loss='mse')
-model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=3, verbose = 1)
+model.fit_generator(train_generator, steps_per_epoch= len(train_samples), validation_data=validation_generator, validation_steps=len(validation_samples), epochs=5, verbose = 1)
 model.save('model.h5')
