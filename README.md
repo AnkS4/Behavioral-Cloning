@@ -56,11 +56,15 @@ Train/Validation Split: 0.8/0.2
 
 #### 3. Solution Design Approach
 
-My first step was to use a convolution neural network model similar to the model used by comma.ai I thought this model might be appropriate because it is used to also used for Self-Driving Cars.
+My first step was to use a convolution neural network model similar Nvidia End-to-End model. I thought this model might be appropriate because it is also used for Self-Driving Cars.
 
-In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set in ratio of 80/20. I previously tried Nvidia End-to-End model & LeNet model, both didn't work for me. I was getting low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting. 
+In order to gauge how well the model was working, I split my image and steering angle data into a training and validation set in ratio of 80/20.
+
+I also tried LeNet model, both the models didn't gave me good results. I was getting low mean squared error on the training set but a high mean squared error on the validation set. This implied that the model was overfitting.
 
 To combat the overfitting, I used all three cameras from the dataset.
+
+I eventually switched to the model similar to the one used by [commaai](https://github.com/commaai/research/blob/master/train_steering_model.py#L27), later I modified it to get better results out of it.
 
 The training dataset I used is *Udacity dataset*.
 
